@@ -1,8 +1,26 @@
 import argparse
 from cowsay import cowsay, list_cows
+import sys
 
 
 OPTIONALS = set("bdgpstwy")
+
+
+def main(args):
+    if args.l:
+        print(list_cows())
+    else:
+        lines = []
+        for line in sys.stdin:
+            lines.append(line.strip())
+        preset = None
+        for opt, value in args._get_kwargs():
+            if opt in OPTIONALS and value:
+                preset = opt
+                break
+        print(cowsay(message="\n".join(lines), cow=args.f, preset=preset,
+                     tongue=args.T, width=args.W, wrap_text=not args.n), file=sys.stdout)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='cowsay app')
@@ -15,3 +33,4 @@ if __name__ == '__main__':
     for option in OPTIONALS:
         parser.add_argument(f"-{option}", action="store_true")
     args = parser.parse_args()
+    main(args)

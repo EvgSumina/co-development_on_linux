@@ -4,7 +4,7 @@ from urllib.request import urlretrieve
 from random import choice
 from collections import defaultdict
 
-
+#jjfjfj
 def ask(prompt: str, valid: list[str] = None) -> str:
     word = input(prompt)
     if valid:

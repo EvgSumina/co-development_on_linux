@@ -3,13 +3,28 @@ import os
 from urllib.request import urlretrieve
 from random import choice
 from collections import defaultdict
+from cowsay import cowsay, get_random_cow, read_dot_cow
+from io import StringIO
 
-#jjfjfj
+
 def ask(prompt: str, valid: list[str] = None) -> str:
-    word = input(prompt)
+    cow = read_dot_cow(StringIO("""
+        $the_cow = <<EOC;
+            $thoughts
+                $thoughts
+                  P^P
+                 (+ +)
+                ( >*< )
+                  [Y]
+             ( ......... )
+              ( _______ )
+                  L  L
+        EOC
+        """))
+    word = input(cowsay(prompt, cowfile=cow))
     if valid:
         while word not in valid:
-            word = input(prompt)
+            word = input(cowsay(prompt, cowfile=cow))
     return word
 
 

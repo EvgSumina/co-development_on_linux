@@ -46,7 +46,8 @@ def bullscows(guess: str, secret: str) -> (int, int):
 
 
 def inform(format_string: str, bulls: int, cows: int) -> None:
-    print(format_string.format(bulls, cows))
+    cow = get_random_cow()
+    print(cowsay(format_string.format(bulls, cows), cow=cow))
 
 
 def gameplay(ask: callable, inform: callable, words: list[str]) -> int:

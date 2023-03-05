@@ -4,7 +4,42 @@ import shlex
 import readline
 
 
-class c(cmd.Cmd):
+def complete_cowsay_cowthink(text, line, begidx, endidx):
+    current_args = shlex.split(line)
+    args_len = len(current_args)
+    default_eyes = ["OO", "XX", "PP", "ZZ", "FF", "AO", "AB"]
+    default_tongue = ["II", "MN", "QK", "DF", "DK", "UU"]
+    if text == current_args[-1]:
+        if args_len == 3:
+            return [c for c in cowsay.list_cows() if c.startswith(text)]
+        elif args_len == 4:
+            return [c for c in default_eyes if c.startswith(text)]
+        elif args_len == 5:
+            return [c for c in default_tongue if c.startswith(text)]
+    else:
+        if args_len == 2:
+            return [c for c in cowsay.list_cows() if c.startswith(text)]
+        elif args_len == 3:
+            return [c for c in default_eyes if c.startswith(text)]
+        elif args_len == 4:
+            return [c for c in default_tongue if c.startswith(text)]
+
+
+def cowsay_cowthink(arg):
+    message, *options = shlex.split(arg)
+    cow = 'default'
+    eyes = 'oo'
+    tongue = '  '
+    if options:
+        cow = options[0] if options[0] else cow
+        if len(options) > 1:
+            eyes = options[1] if options[1] else eyes
+            if len(options) > 2:
+                tongue = options[2] if options[2] else tongue
+    return [message, eyes, tongue, cow]
+
+
+class CowSayCmd(cmd.Cmd):
     intro = "Say cow and enter!"
     prompt = "moo>"
 
